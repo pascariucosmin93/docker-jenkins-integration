@@ -1,39 +1,60 @@
+---
+# Deployment configuration for your "myweb" application
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: myweb
+  # Unique name for the deployment
   name: myweb
+  # Optional namespace for deployment organization
+  # Use "default" if not explicitly configured
   namespace: jenkins
 spec:
-  replicas: 3
+  replicas: 3  # Number of pod replicas to run
   selector:
     matchLabels:
+      # Label to identify pods belonging to this deployment
       app: myweb
   template:
     metadata:
       labels:
+        # Label for the pod template
         app: myweb
     spec:
       containers:
-        - image: registry.cosmin-lab.cloud:5000/myweb1:{{TAG}}
-          imagePullPolicy: Always
-          name: myweb
-      imagePullSecrets:
-        - name: regcred2
+        - name: myweb  # Container name within the pod
+          # Replace with the actual image tag (e.g., shortened commit ID)
+          image: registry.cosmin-lab.cloud:5000/myweb1:${SHORT_COMMIT_ID}  # Environment variable reference
+          imagePullPolicy: Always  # Always pull the latest image
+          # Add resource requests and limits if needed
+          # resources:
+          #   requests:
+          #     memory: "1Gi"
+          #     cpu: "1"
+          #   limits:
+          #     memory: "2Gi"
+          #     cpu: "2"
+      # Add liveness and readiness probes for health checks (optional)
+      # livenessProbe:
+      #   # ... probe configuration
+      # readinessProbe:
+      #   # ... probe configuration
 
 ---
-
+# Service configuration to expose the deployment
 apiVersion: v1
 kind: Service
 metadata:
-  name: myweb-service  
+  name: myweb-service
   namespace: jenkins
 spec:
   selector:
-    app: myweb  
+    app: myweb  # Label selector to match pods
   ports:
     - protocol: TCP
-      port: 80  
-      nodePort: 30200  
-  type: NodePort
+      # Internal port within pods
+      port: 80
+      # External port exposed on nodes
+      nodePort: 30200
+  type: NodePort  # Expose service through node ports
+
+# Add additional service annotations and labels if needed (optional)

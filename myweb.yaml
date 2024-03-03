@@ -16,7 +16,7 @@ spec:
         app: myweb
     spec:
       containers:
-        - image: registry.cosmin-lab.cloud:5000/myweb:1
+        - image: registry.cosmin-lab.cloud:5000/myweb:${commitId}  # Utilizarea variabilei commitId în loc de versiunea statică
           imagePullPolicy: Always
           name: myweb
       imagePullSecrets:

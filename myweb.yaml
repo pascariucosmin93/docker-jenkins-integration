@@ -4,7 +4,7 @@ metadata:
   labels:
     app: myweb
   name: myweb
-  namespace: jenkins   
+  namespace: jenkins
 spec:
   replicas: 1
   selector:
@@ -16,24 +16,25 @@ spec:
         app: myweb
     spec:
       containers:
-      - image: registry.cosmin-lab.cloud:5000/myweb:1
-        imagePullPolicy: Always
-        name: myweb
-        imagePullSecrets:
+        - image: registry.cosmin-lab.cloud:5000/myweb:1
+          imagePullPolicy: Always
+          name: myweb
+      imagePullSecrets:
         - name: regcred2
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name:  myweb
+  name: myweb-service  # Am schimbat numele serviciului
   namespace: jenkins
 spec:
   selector:
-    app:  myweb
+    app: myweb  # Am actualizat selectorul pentru a se potrivi cu eticheta app din Deployment
   ports:
-  - protocol: TCP
-    port: 8080  # Portul pe care vrei să-l folosești pentru accesul extern
-    targetPort: 8081
-    nodePort: 30200  # Portul NodePort pe care vrei să-l folosești (poate fi ales din intervalul 30000-32767)
+    - protocol: TCP
+      port: 80  # Am schimbat portul la care să fie expus serviciul
+      targetPort: 8081
+      nodePort: 30200  # Poate fi ales din intervalul 30000-32767
   type: NodePort

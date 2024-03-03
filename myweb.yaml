@@ -16,7 +16,7 @@ spec:
         app: myweb
     spec:
       containers:
-        - image: registry.cosmin-lab.cloud:5000/myweb:{{shortCommitId}}}  
+        - image: registry.cosmin-lab.cloud:5000/myweb:3 
           imagePullPolicy: Always
           name: myweb
       imagePullSecrets:

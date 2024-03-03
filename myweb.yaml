@@ -19,5 +19,21 @@ spec:
       - image: registry.cosmin-lab.cloud:5000/myweb:1
         imagePullPolicy: Always
         name: myweb
-      imagePullSecrets:
-      - name: regcred2
+        imagePullSecrets:
+        - name: regcred2
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  myweb
+  namespace: jenkins
+spec:
+  selector:
+    app:  myweb
+  ports:
+  - protocol: TCP
+    port: 8080  # Portul pe care vrei să-l folosești pentru accesul extern
+    targetPort: 8081
+    nodePort: 30200  # Portul NodePort pe care vrei să-l folosești (poate fi ales din intervalul 30000-32767)
+  type: NodePort

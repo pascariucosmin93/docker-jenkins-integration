@@ -34,7 +34,6 @@ spec:
     app: myweb  # Am actualizat selectorul pentru a se potrivi cu eticheta app din Deployment
   ports:
     - protocol: TCP
-      port: 80  # Am schimbat portul la care să fie expus serviciul
-      targetPort: 8081
+      port: 80  # Am schimbat portul la care să fie expus serviciu
       nodePort: 30200  # Poate fi ales din intervalul 30000-32767
   type: NodePort

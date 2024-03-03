@@ -16,7 +16,7 @@ spec:
         app: myweb
     spec:
       containers:
-        - image: registry.cosmin-lab.cloud:5000/myweb:${commitId}  # Utilizarea variabilei commitId în loc de versiunea statică
+        - image: registry.cosmin-lab.cloud:5000/myweb:{{TAG}}  
           imagePullPolicy: Always
           name: myweb
       imagePullSecrets:
@@ -27,13 +27,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: myweb-service  # Am schimbat numele serviciului
+  name: myweb-service  
   namespace: jenkins
 spec:
   selector:
-    app: myweb  # Am actualizat selectorul pentru a se potrivi cu eticheta app din Deployment
+    app: myweb  
   ports:
     - protocol: TCP
-      port: 80  # Am schimbat portul la care să fie expus serviciu
-      nodePort: 30200  # Poate fi ales din intervalul 30000-32767
+      port: 80  
+      nodePort: 30200  
   type: NodePort
